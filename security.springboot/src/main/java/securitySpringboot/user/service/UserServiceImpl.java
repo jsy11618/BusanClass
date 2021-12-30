@@ -52,12 +52,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User addUser(User user) {
         log.info("Saving new User to the database. : {}", user.getUserName());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
         // 우리는 공부 하는 중이기 때문에 예외처리(try~catch)는 제외하자
     }
 
     @Override
     public User addUserDto(UserDto userDto){
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         User user= User.builder()
                 .id(null)
                 .userName(userDto.getUserName())
