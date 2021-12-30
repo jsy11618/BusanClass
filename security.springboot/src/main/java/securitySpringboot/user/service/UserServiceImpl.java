@@ -3,12 +3,14 @@ package securitySpringboot.user.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import securitySpringboot.user.dto.UserDto;
 import securitySpringboot.user.model.Role;
 import securitySpringboot.user.model.User;
 import securitySpringboot.user.repository.RoleRepository;
 import securitySpringboot.user.repository.UserRepository;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +29,20 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
         // 우리는 공부 하는 중이기 때문에 예외처리(try~catch)는 제외하자
     }
+
+    @Override
+    public User addUserDto(UserDto userDto){
+        User user= User.builder()
+                .id(null)
+                .userName(userDto.getUserName())
+                .userEmail(userDto.getUserEmail())
+                .roles(new ArrayList<>())
+                .password(userDto.getPassword())
+                .build();
+        return userRepository.save(user);
+    }
+
+
 
     @Override
     public Role addRole(Role role) {
